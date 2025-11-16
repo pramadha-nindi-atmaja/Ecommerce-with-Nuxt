@@ -1,21 +1,18 @@
-export default function({ $auth, redirect }) {
+export default function ({ $auth, redirect }) {
+  // If user not logged in, stop here
+  if (!$auth.loggedIn) return
 
-    //check loggedIn "true"
-    if($auth.loggedIn) {
+  const role = $auth.strategy?.name
 
-        //check role admin
-        if($auth.strategy.name == "admin") {
+  switch (role) {
+    case 'admin':
+      return redirect('/admin/dashboard')
 
-            return redirect('/admin/dashboard')
+    case 'customer':
+      return redirect('/customer/dashboard')
 
-        }
-
-        //check role customer
-        if($auth.strategy.name == "customer") {
-
-            return redirect('/customer/dashboard')
-
-        }
-    }
-
+    default:
+      // fallback jika role tidak dikenali
+      return redirect('/login')
+  }
 }
