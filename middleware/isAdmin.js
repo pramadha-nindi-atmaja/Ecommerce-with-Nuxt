@@ -1,15 +1,16 @@
-export default function({ $auth, redirect }) {
+export default function ({ $auth, redirect }) {
+  // Not logged in → force redirect
+  if (!$auth.loggedIn) {
+    return redirect('/admin/login')
+  }
 
-    //check loggedIn "false"
-    if(!$auth.loggedIn) {
-        return redirect('/admin/login')
-    }
+  const role = $auth.strategy?.name
 
-    //check admin role
-    if($auth.strategy.name != "admin") {
-        return redirect('/admin/login')
-    } else {
-        return
-    }
+  // Logged in but not admin → block access
+  if (role !== 'admin') {
+    return redirect('/admin/login')
+  }
 
+  // Everything OK → allow access
+  return
 }
