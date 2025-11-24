@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="row">
         <!-- Tentang -->
-        <div class="col-md-5 mb-4">
+        <div class="col-md-3 mb-4">
           <FooterSection title="TENTANG">
             <p>
               Mi Store Official terpercaya di Indonesia. Jual beli aman & harga
@@ -21,8 +21,44 @@
           </FooterSection>
         </div>
 
-        <!-- Metode Pembayaran -->
+        <!-- Quick Links -->
+        <div class="col-md-2 mb-4">
+          <FooterSection title="LINKS">
+            <ul class="list-unstyled">
+              <li class="mb-2"><FooterLink to="/">Beranda</FooterLink></li>
+              <li class="mb-2"><FooterLink to="/products">Semua Produk</FooterLink></li>
+              <li class="mb-2"><FooterLink to="/categories">Kategori</FooterLink></li>
+              <li class="mb-2"><FooterLink to="/about">Tentang Kami</FooterLink></li>
+              <li class="mb-2"><FooterLink to="/contact">Kontak</FooterLink></li>
+              <li class="mb-2"><FooterLink to="/faq">FAQ</FooterLink></li>
+            </ul>
+          </FooterSection>
+        </div>
+
+        <!-- Customer Service -->
         <div class="col-md-3 mb-4">
+          <FooterSection title="LAYANAN PELANGGAN">
+            <div class="contact-info">
+              <p><i class="fa fa-phone"></i> <strong>Telepon:</strong> +62 812 3456 7890</p>
+              <p><i class="fa fa-whatsapp"></i> <strong>WhatsApp:</strong> +62 812 3456 7890</p>
+              <p><i class="fa fa-envelope"></i> <strong>Email:</strong> info@yanstore.com</p>
+              <p><i class="fa fa-map-marker-alt"></i> <strong>Alamat:</strong> Jl. Raya Utama No. 123, Jakarta</p>
+            </div>
+            
+            <div class="mt-3">
+              <h5 class="font-weight-bold">Jam Operasional:</h5>
+              <p class="mb-1">
+                <i class="fa fa-clock"></i> <strong>Senin - Jum'at:</strong> 07.00 - 19.00
+              </p>
+              <p>
+                <i class="fa fa-clock"></i> <strong>Sabtu - Minggu:</strong> 07.00 - 17.00
+              </p>
+            </div>
+          </FooterSection>
+        </div>
+
+        <!-- Metode Pembayaran -->
+        <div class="col-md-4 mb-4">
           <FooterSection title="METODE PEMBAYARAN">
             <div class="row">
               <PaymentLogo
@@ -32,24 +68,17 @@
                 :width="logo.width"
               />
             </div>
-          </FooterSection>
-        </div>
-
-        <!-- Jam Operasional -->
-        <div class="col-md-4 mb-4">
-          <FooterSection title="JAM OPERASIONAL">
-            <p>
-              <i class="fa fa-clock"></i> Toko Buka Setiap Hari :
-              <br /><br />
-              <strong>Senin - Jum'at</strong> (07.00 - 19.00)
-              <br />
-              <strong>Sabtu - Minggu</strong> (07.00 - 17.00)
-            </p>
-
-            <div class="contact-info mt-3">
-              <p><i class="fa fa-phone"></i> <strong>Telepon:</strong> +62 812 3456 7890</p>
-              <p><i class="fa fa-envelope"></i> <strong>Email:</strong> info@yanstore.com</p>
-              <p><i class="fa fa-map-marker-alt"></i> <strong>Alamat:</strong> Jl. Raya Utama No. 123, Jakarta</p>
+            
+            <div class="mt-4">
+              <h5 class="font-weight-bold">Ikuti Kami:</h5>
+              <div class="sosmed-icons mt-2">
+                <SocialIcon
+                  v-for="icon in socialLinks"
+                  :key="icon.name + '-2'"
+                  :href="icon.url"
+                  :icon="icon.icon"
+                />
+              </div>
             </div>
           </FooterSection>
         </div>
@@ -72,6 +101,7 @@
                 </button>
               </div>
             </div>
+            <p class="text-muted small">Dapatkan penawaran dan promo menarik setiap minggu.</p>
           </FooterSection>
         </div>
       </div>
@@ -115,12 +145,36 @@ export default {
   },
   methods: {
     subscribeNewsletter() {
-      if (!this.email) return alert("Silakan masukkan alamat email Anda");
-      if (!this.validateEmail(this.email))
-        return alert("Silakan masukkan alamat email yang valid");
+      if (!this.email) {
+        this.$swal.fire({
+          icon: 'warning',
+          title: 'Peringatan',
+          text: 'Silakan masukkan alamat email Anda',
+          confirmButtonColor: '#e64a19'
+        });
+        return;
+      }
+      
+      if (!this.validateEmail(this.email)) {
+        this.$swal.fire({
+          icon: 'error',
+          title: 'Email Tidak Valid',
+          text: 'Silakan masukkan alamat email yang valid',
+          confirmButtonColor: '#e64a19'
+        });
+        return;
+      }
 
+      // Simulate API call
       console.log("Email berlangganan:", this.email);
-      alert("Terima kasih telah berlangganan newsletter kami!");
+      
+      this.$swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: 'Terima kasih telah berlangganan newsletter kami!',
+        confirmButtonColor: '#e64a19'
+      });
+      
       this.email = "";
     },
     validateEmail(email) {
@@ -160,6 +214,14 @@ export default {
         </div>
       `,
     },
+    FooterLink: {
+      props: ["to"],
+      template: `
+        <nuxt-link :to="to" class="footer-link">
+          <slot></slot>
+        </nuxt-link>
+      `
+    }
   },
 };
 </script>
@@ -217,5 +279,16 @@ export default {
 .btn-primary:hover {
   background-color: rgb(200, 60, 20);
   border-color: rgb(200, 60, 20);
+}
+
+.list-unstyled li a {
+  color: #666;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.list-unstyled li a:hover {
+  color: rgb(230, 74, 26);
+  text-decoration: underline;
 }
 </style>
