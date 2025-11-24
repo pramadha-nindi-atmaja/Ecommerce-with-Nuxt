@@ -15,14 +15,16 @@
     <!-- Orders -->
     <SidebarTitle label="ORDERS" />
     <SidebarItem to="admin-invoices" icon="cil-cart" label="Invoices" />
-    <SidebarItem to="admin-reports" icon="cil-chart-pie" label="Reports" />
+
+    <!-- Analytics -->
+    <SidebarTitle label="ANALYTICS" />
+    <SidebarItem to="admin-dashboard" icon="cil-chart-pie" label="Reports" />
 
     <!-- Others -->
     <SidebarTitle label="OTHERS" />
     <SidebarItem to="admin-customers" icon="cil-user" label="Customers" />
     <SidebarItem to="admin-sliders" icon="cil-laptop" label="Sliders" />
     <SidebarItem to="admin-users" icon="cil-group" label="Users" />
-    <SidebarItem to="admin-settings" icon="cil-settings" label="Settings" />
 
     <li class="c-sidebar-nav-divider"></li>
 
