@@ -64,6 +64,15 @@
 
           <div class="dropdown-divider"></div>
 
+          <div class="dropdown-header bg-light py-2 rounded">
+            <strong>ACCOUNT</strong>
+          </div>
+
+          <DropdownItem to="admin-users" icon="cil-user" label="Users" />
+          <DropdownItem to="admin-dashboard" icon="cil-speedometer" label="Dashboard" />
+
+          <div class="dropdown-divider"></div>
+
           <a class="dropdown-item" role="button" @click="logout">
             <svg class="c-icon mr-2">
               <use xlink:href="@/node_modules/@coreui/icons/sprites/free.svg#cil-account-logout"></use>
