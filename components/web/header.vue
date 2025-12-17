@@ -1,20 +1,20 @@
 <template>
-  <header class="section-header fixed-top">
-    <section class="header-main border-bottom">
+  <header class="section-header fixed-top header-main">
+    <section class="header-top py-2">
       <div class="container-fluid">
         <div class="row align-items-center">
           <div class="col-lg-3 col-sm-4 col-md-4 col-5"> 
-              <nuxt-link to="/" class="brand-wrap" data-abc="true">
-                <img src="/images/xiaomi.png" width="35" class="bg-light p-2 rounded">
-                <span class="logo">MI STORE</span>
+              <nuxt-link to="/" class="brand-wrap d-flex align-items-center" data-abc="true">
+                <img src="/images/xiaomi.png" width="35" class="bg-white p-2 rounded shadow-sm">
+                <span class="logo ml-2 font-weight-bold">MI STORE</span>
               </nuxt-link>
           </div>
           <div class="col-lg-4 col-xl-5 col-sm-8 col-md-4 d-none d-md-block">
             <div class="search-wrap">
               <div class="input-group w-100"> 
-                <input type="text" class="form-control search-form" v-model="search" @keypress.enter="searchData" style="width:55%;" placeholder="mau belanja apa hari ini ?">
+                <input type="text" class="form-control search-form rounded-left" v-model="search" @keypress.enter="searchData" placeholder="Cari produk...">
                 <div class="input-group-append"> 
-                  <button @click="searchData" class="btn btn-primary search-button"> <i class="fa fa-search"></i> </button> 
+                  <button @click="searchData" class="btn btn-warning search-button rounded-right"> <i class="fa fa-search"></i> </button> 
                 </div>
               </div>
             </div>
@@ -23,7 +23,7 @@
             <div class="d-flex justify-content-end align-items-center">
               <!-- Language Switcher -->
               <div class="dropdown mr-3 d-none d-md-block">
-                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-light btn-sm dropdown-toggle rounded-pill px-3" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fa fa-globe"></i> {{ currentLanguage.name }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="languageDropdown">
@@ -36,35 +36,44 @@
                 </div>
               </div>
               
+              <!-- Wishlist -->
+              <nuxt-link :to="{name: 'customer-wishlist'}" class="btn btn-warning btn-md d-md-block mr-2 rounded-pill px-3" v-if="$auth.loggedIn && $auth.strategy.name == 'customer'">
+                <i class="fa fa-heart"></i> 
+                <span class="ml-1 badge badge-light">{{ wishlistCount }}</span>
+              </nuxt-link>
+              
               <!-- Cart -->
-              <nuxt-link :to="{name: 'cart'}" class="btn search-button btn-md d-md-block">
+              <nuxt-link :to="{name: 'cart'}" class="btn btn-warning btn-md d-md-block rounded-pill px-3">
                 <i class="fa fa-shopping-cart"></i> 
-                <span class="ml-2">{{ cartTotal }}</span> | Rp. {{ formatPrice(cartPrice) }}
+                <span class="ml-1 badge badge-light">{{ cartTotal }}</span>
               </nuxt-link>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <nav class="navbar navbar-expand-md navbar-main border-bottom p-2">
+    <nav class="navbar navbar-expand-md navbar-main p-0">
       <div class="container-fluid">
-        <div class="d-md-none my-2">
+        <div class="d-md-none my-2 px-3 w-100">
           <div class="input-group"> 
-            <input type="search" name="search" class="form-control" v-model="search" @keypress.enter="searchData" placeholder="mau belanja apa hari ini ?">
+            <input type="search" name="search" class="form-control rounded-left" v-model="search" @keypress.enter="searchData" placeholder="Cari produk...">
             <div class="input-group-append"> 
-              <button @click="searchData" class="btn btn-warning"> <i class="fa fa-search"></i></button> 
+              <button @click="searchData" class="btn btn-warning rounded-right"> <i class="fa fa-search"></i></button> 
             </div>
           </div>
         </div> 
-        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#dropdown6"
-          aria-expanded="false"> <span class="navbar-toggler-icon"></span> </button>
+        <button class="navbar-toggler collapsed mx-3" type="button" data-toggle="collapse" data-target="#dropdown6"
+          aria-expanded="false"> 
+          <span class="navbar-toggler-icon"></span> 
+        </button>
         <div class="navbar-collapse collapse" id="dropdown6">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+          <ul class="navbar-nav mr-auto px-3">
+            <li class="nav-item dropdown"> 
+              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
                 data-abc="true" aria-expanded="false"><i class="fa fa-list-ul"></i> KATEGORI</a>
               <div class="dropdown-menu">
                 <nuxt-link :to="{name: 'categories-slug', params: {slug: category.slug}}" class="dropdown-item" v-for="category in categories" :key="category.id">
-                  <img :src="category.image" width="50"> {{ category.name }}
+                  <img :src="category.image" width="50" class="mr-2"> {{ category.name }}
                 </nuxt-link>
                 <div class="dropdown-divider"></div>
                 <nuxt-link :to="{name: 'categories'}" class="dropdown-item active text-center" href="" data-abc="true">
@@ -77,7 +86,7 @@
             <li class="nav-item"> <nuxt-link :to="{name: 'contact'}" class="nav-link" data-abc="true"><i class="fa fa-comments"></i> KONTAK</nuxt-link> </li>
             <li class="nav-item"> <nuxt-link :to="{name: 'faq'}" class="nav-link" data-abc="true"><i class="fa fa-question-circle"></i> FAQ</nuxt-link> </li>
           </ul>
-          <ul class="navbar-nav ml-auto">
+          <ul class="navbar-nav ml-auto px-3">
             <!-- Language Switcher Mobile -->
             <li class="nav-item dropdown d-md-none">
               <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
@@ -95,7 +104,7 @@
             
             <li class="nav-item dropdown" v-if="!$auth.loggedIn">
               <nuxt-link :to="{name: 'customer-login'}" class="nav-link" href="#" role="button" aria-expanded="false"> <i class="fa fa-user-circle"></i>
-                ACCOUNT</nuxt-link>
+                AKUN</nuxt-link>
             </li>
             <li class="nav-item dropdown" v-if="$auth.loggedIn">
               <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -113,7 +122,7 @@
                 </nuxt-link>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item" @click.prevent="logout">
-                  <i class="fa fa-sign-out-alt"></i> Logout
+                  <i class="fa fa-sign-out-alt"></i> Keluar
                 </a>
               </div>
             </li>
@@ -135,6 +144,9 @@
         //fething carts on Rest API
         await this.$store.dispatch('web/cart/getCartsData')
         await this.$store.dispatch('web/cart/getCartPrice')
+        
+        // fetching wishlist data
+        await this.$store.dispatch('web/wishlist/getWishlistData')
       }
     },
 
@@ -153,6 +165,11 @@
       //cartTotal
       cartTotal() {
         return this.$store.state.web.cart.carts.length
+      },
+      
+      //wishlist count
+      wishlistCount() {
+        return this.$store.state.web.wishlist.wishlistCount
       },
       
       //current language
@@ -228,13 +245,6 @@
     font-size: initial;
   }
   
-  .badge {
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translate(25%, -25%);
-  }
-  
   .nav-item .dropdown-menu {
     min-width: 200px;
   }
@@ -244,20 +254,9 @@
     margin-right: 5px;
   }
   
-  .search-form {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-  
-  .search-button {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-  
   .logo {
     font-weight: bold;
     font-size: 1.2rem;
-    margin-left: 10px;
   }
   
   .brand-wrap {
@@ -267,5 +266,25 @@
   
   .dropdown-toggle::after {
     vertical-align: 0.155em;
+  }
+  
+  .header-top {
+    background: linear-gradient(135deg, #e64a19, #c0392b);
+  }
+  
+  .navbar-main {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  @media (max-width: 768px) {
+    .navbar-toggler {
+      border: none;
+      outline: none;
+    }
+    
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
   }
 </style>
