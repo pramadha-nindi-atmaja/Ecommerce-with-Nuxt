@@ -2,9 +2,9 @@
   <div class="container-fluid mt-custom">
     <div 
       id="mycarousel" 
-      class="carousel slide" 
+      class="carousel slide rounded shadow" 
       data-ride="carousel" 
-      data-interval="4000"
+      data-interval="5000"
       @mouseenter="pauseCarousel"
       @mouseleave="resumeCarousel"
     >
@@ -13,14 +13,14 @@
         <li 
           v-for="(slider, id) in sliders" 
           :key="slider.id"
-          :data-target="#mycarousel" 
+          :data-target="'mycarousel'" 
           :data-slide-to="id"
           :class="{ active: id === 0 }"
         ></li>
       </ol>
       
       <!-- Slides -->
-      <div class="carousel-inner">
+      <div class="carousel-inner rounded">
         <div 
           class="carousel-item" 
           v-for="(slider, id) in sliders" 
@@ -28,7 +28,7 @@
           :key="slider.id"
         >
           <a :href="slider.link" target="_blank" :aria-label="`Slide link: ${slider.link}`">
-            <img :src="slider.image" class="d-block w-100 rounded" :alt="`Slider image ${id + 1}`">
+            <img :src="slider.image" class="d-block w-100" :alt="`Slider image ${id + 1}`">
           </a> 
         </div>
         
@@ -54,10 +54,10 @@
 
       <!-- Controls -->
       <a class="carousel-control-prev" href="#mycarousel" role="button" data-slide="prev" aria-label="Previous slide">
-        <div class="banner-icons"> <span class="fa fa-angle-left"></span> </div> <span class="sr-only">Previous</span>
+        <div class="banner-icons rounded-circle shadow"> <span class="fa fa-angle-left"></span> </div> <span class="sr-only">Previous</span>
       </a> 
       <a class="carousel-control-next" href="#mycarousel" role="button" data-slide="next" aria-label="Next slide">
-        <div class="banner-icons"> <span class="fa fa-angle-right"></span> </div> <span class="sr-only">Next</span>
+        <div class="banner-icons rounded-circle shadow"> <span class="fa fa-angle-right"></span> </div> <span class="sr-only">Next</span>
       </a>
     </div>
   </div>
@@ -96,17 +96,27 @@
     methods: {
       pauseCarousel() {
         // Pause the carousel on hover
-        const carousel = document.getElementById('mycarousel')
-        if (carousel) {
-          $(carousel).carousel('pause')
+        if (typeof window !== 'undefined' && window.bootstrap) {
+          const carousel = document.getElementById('mycarousel')
+          if (carousel) {
+            const bsCarousel = bootstrap.Carousel.getInstance(carousel)
+            if (bsCarousel) {
+              bsCarousel.pause()
+            }
+          }
         }
       },
       
       resumeCarousel() {
         // Resume the carousel when mouse leaves
-        const carousel = document.getElementById('mycarousel')
-        if (carousel) {
-          $(carousel).carousel('cycle')
+        if (typeof window !== 'undefined' && window.bootstrap) {
+          const carousel = document.getElementById('mycarousel')
+          if (carousel) {
+            const bsCarousel = bootstrap.Carousel.getInstance(carousel)
+            if (bsCarousel) {
+              bsCarousel.cycle()
+            }
+          }
         }
       }
     },
@@ -114,9 +124,14 @@
     mounted() {
       // Ensure carousel is properly initialized
       this.$nextTick(() => {
-        const carousel = document.getElementById('mycarousel')
-        if (carousel) {
-          $(carousel).carousel()
+        if (typeof window !== 'undefined' && window.bootstrap) {
+          const carousel = document.getElementById('mycarousel')
+          if (carousel) {
+            new bootstrap.Carousel(carousel, {
+              interval: 4000,
+              pause: 'hover'
+            })
+          }
         }
       })
     }
@@ -136,39 +151,50 @@
 }
 
 .carousel-indicators {
-  bottom: 10px;
+  bottom: 20px;
 }
 
 .carousel-indicators li {
-  background-color: rgba(0, 0, 0, 0.5);
-  width: 10px;
-  height: 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
+  border: none;
+  margin: 0 5px;
+  transition: all 0.3s ease;
 }
 
 .carousel-indicators .active {
-  background-color: #e64a19;
+  background-color: #fff;
+  transform: scale(1.2);
 }
 
 .banner-icons {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
   width: 50px;
   height: 50px;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s ease;
 }
 
 .banner-icons span {
-  color: white;
+  color: #333;
   font-size: 24px;
+}
+
+.banner-icons:hover {
+  background: white;
+  transform: scale(1.1);
 }
 
 .carousel-control-prev,
 .carousel-control-next {
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
+  width: 10%;
 }
 
 .carousel:hover .carousel-control-prev,
