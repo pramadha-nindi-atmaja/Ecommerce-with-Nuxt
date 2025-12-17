@@ -46,7 +46,7 @@
 
         <div class="dropdown-menu dropdown-menu-right pt-0">
           <!-- Quick Menu -->
-          <div class="dropdown-header bg-light py-2 rounded">
+          <div class="dropdown-header bg-primary text-white py-2 rounded">
             <strong>QUICK MENU</strong>
           </div>
 
@@ -56,7 +56,7 @@
 
           <div class="dropdown-divider"></div>
 
-          <div class="dropdown-header bg-light py-2 rounded">
+          <div class="dropdown-header bg-success text-white py-2 rounded">
             <strong>ORDERS</strong>
           </div>
 
@@ -64,7 +64,7 @@
 
           <div class="dropdown-divider"></div>
 
-          <div class="dropdown-header bg-light py-2 rounded">
+          <div class="dropdown-header bg-warning text-dark py-2 rounded">
             <strong>ACCOUNT</strong>
           </div>
 
@@ -126,13 +126,21 @@ export default {
 .c-avatar-img {
   border-radius: 50%;
   object-fit: cover;
+  border: 2px solid var(--primary);
 }
 
 .dropdown-item {
-  transition: background 0.2s ease;
+  transition: all 0.3s ease;
+  border-radius: 0.25rem;
+  margin: 0.125rem 0.5rem;
 }
 
 .dropdown-item:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(230, 74, 25, 0.1);
+  transform: translateX(5px);
+}
+
+.dropdown-header {
+  font-size: 0.875rem;
 }
 </style>
