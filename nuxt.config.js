@@ -58,6 +58,7 @@ export default {
   css: [
     '@/assets/css/style.min.css',
     '@/assets/css/custom.css',
+    '@/assets/css/modern.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
