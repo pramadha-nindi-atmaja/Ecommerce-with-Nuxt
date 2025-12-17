@@ -1,11 +1,11 @@
 <template>
-  <footer class="footer pt-5">
-    <div class="container-fluid">
+  <footer class="footer pt-5 bg-light">
+    <div class="container">
       <div class="row">
         <!-- Tentang -->
-        <div class="col-md-3 mb-4">
+        <div class="col-lg-3 col-md-6 mb-4">
           <FooterSection title="TENTANG">
-            <p>
+            <p class="text-muted">
               Mi Store Official terpercaya di Indonesia. Jual beli aman & harga
               termurah! Belanja sekarang.
             </p>
@@ -22,7 +22,7 @@
         </div>
 
         <!-- Quick Links -->
-        <div class="col-md-2 mb-4">
+        <div class="col-lg-2 col-md-6 mb-4">
           <FooterSection title="LINKS">
             <ul class="list-unstyled">
               <li class="mb-2"><FooterLink to="/">Beranda</FooterLink></li>
@@ -36,29 +36,29 @@
         </div>
 
         <!-- Customer Service -->
-        <div class="col-md-3 mb-4">
+        <div class="col-lg-3 col-md-6 mb-4">
           <FooterSection title="LAYANAN PELANGGAN">
             <div class="contact-info">
-              <p><i class="fa fa-phone"></i> <strong>Telepon:</strong> +62 812 3456 7890</p>
-              <p><i class="fa fa-whatsapp"></i> <strong>WhatsApp:</strong> +62 812 3456 7890</p>
-              <p><i class="fa fa-envelope"></i> <strong>Email:</strong> info@yanstore.com</p>
-              <p><i class="fa fa-map-marker-alt"></i> <strong>Alamat:</strong> Jl. Raya Utama No. 123, Jakarta</p>
+              <p class="mb-2"><i class="fa fa-phone text-primary"></i> <strong>Telepon:</strong> +62 812 3456 7890</p>
+              <p class="mb-2"><i class="fa fa-whatsapp text-success"></i> <strong>WhatsApp:</strong> +62 812 3456 7890</p>
+              <p class="mb-2"><i class="fa fa-envelope text-info"></i> <strong>Email:</strong> info@pramadhastore.com</p>
+              <p class="mb-2"><i class="fa fa-map-marker-alt text-danger"></i> <strong>Alamat:</strong> Jl. Raya Utama No. 123, Jakarta</p>
             </div>
             
             <div class="mt-3">
-              <h5 class="font-weight-bold">Jam Operasional:</h5>
+              <h5 class="font-weight-bold mb-3">Jam Operasional:</h5>
               <p class="mb-1">
-                <i class="fa fa-clock"></i> <strong>Senin - Jum'at:</strong> 07.00 - 19.00
+                <i class="fa fa-clock text-warning"></i> <strong>Senin - Jum'at:</strong> 07.00 - 19.00
               </p>
               <p>
-                <i class="fa fa-clock"></i> <strong>Sabtu - Minggu:</strong> 07.00 - 17.00
+                <i class="fa fa-clock text-warning"></i> <strong>Sabtu - Minggu:</strong> 07.00 - 17.00
               </p>
             </div>
           </FooterSection>
         </div>
 
         <!-- Metode Pembayaran -->
-        <div class="col-md-4 mb-4">
+        <div class="col-lg-4 col-md-6 mb-4">
           <FooterSection title="METODE PEMBAYARAN">
             <div class="row">
               <PaymentLogo
@@ -70,7 +70,7 @@
             </div>
             
             <div class="mt-4">
-              <h5 class="font-weight-bold">Ikuti Kami:</h5>
+              <h5 class="font-weight-bold mb-3">Ikuti Kami:</h5>
               <div class="sosmed-icons mt-2">
                 <SocialIcon
                   v-for="icon in socialLinks"
@@ -85,18 +85,18 @@
       </div>
 
       <!-- Newsletter -->
-      <div class="row mt-4">
+      <div class="row mt-4 pt-4 border-top">
         <div class="col-md-12">
           <FooterSection title="NEWSLETTER">
-            <div class="input-group mb-3">
+            <div class="input-group mb-3 rounded-pill overflow-hidden">
               <input
                 v-model="email"
                 type="email"
-                class="form-control"
+                class="form-control border-0"
                 placeholder="Masukkan email Anda"
               />
               <div class="input-group-append">
-                <button class="btn btn-primary" type="button" @click="subscribeNewsletter">
+                <button class="btn btn-warning rounded-pill px-4" type="button" @click="subscribeNewsletter">
                   Subscribe
                 </button>
               </div>
@@ -107,10 +107,9 @@
       </div>
 
       <!-- Copyright -->
-      <div class="row text-center mt-3 pb-3">
+      <div class="row text-center mt-5 pt-3 border-top">
         <div class="col-md-12">
-          <hr />
-          © <strong>YAN STORE</strong> 2024 • Hak Cipta Dilindungi
+          <p class="mb-0">© <strong>MI STORE</strong> 2024 • Hak Cipta Dilindungi</p>
           <div class="mt-2">
             <a href="#" class="footer-link mr-3">Syarat & Ketentuan</a>
             <a href="#" class="footer-link mr-3">Kebijakan Privasi</a>
@@ -228,8 +227,8 @@ export default {
 
 <style scoped>
 .footer {
-  background: #fff;
-  border-top: 5px solid rgb(230, 74, 26);
+  background: linear-gradient(to bottom, #f8f9fa, #ffffff);
+  border-top: 5px solid var(--primary);
 }
 
 .section-divider {
@@ -248,22 +247,24 @@ export default {
   color: #333;
   text-decoration: none;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .social-icon:hover {
-  background-color: rgb(230, 74, 26);
+  background-color: var(--primary);
   color: white;
   transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .footer-link {
   color: #666;
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .footer-link:hover {
-  color: rgb(230, 74, 26);
+  color: var(--primary);
   text-decoration: underline;
 }
 
@@ -271,24 +272,28 @@ export default {
   margin-bottom: 8px;
 }
 
-.btn-primary {
-  background-color: rgb(230, 74, 26);
-  border-color: rgb(230, 74, 26);
+.btn-warning {
+  background: var(--gradient-primary);
+  border: none;
 }
 
-.btn-primary:hover {
-  background-color: rgb(200, 60, 20);
-  border-color: rgb(200, 60, 20);
+.btn-warning:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
 }
 
 .list-unstyled li a {
   color: #666;
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .list-unstyled li a:hover {
-  color: rgb(230, 74, 26);
+  color: var(--primary);
   text-decoration: underline;
+}
+
+.border-top {
+  border-top: 1px solid rgba(0,0,0,0.1) !important;
 }
 </style>
