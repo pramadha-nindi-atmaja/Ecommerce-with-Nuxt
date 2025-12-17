@@ -1,45 +1,54 @@
 <template>
   <div class="fade-in">
     <div class="text-center mb-4">
-      <nuxt-link to="/" class="text-black">
-        <img src="/images/logo.png" width="50">
-        <h3 class="mt-2 font-weight-bold">MI STORE</h3>
+      <nuxt-link to="/" class="text-black text-decoration-none">
+        <img src="/images/logo.png" width="60" class="mb-3">
+        <h3 class="font-weight-bold">MI STORE</h3>
+        <p class="text-muted">Administrator Panel</p>
       </nuxt-link>
     </div>
     <div class="card-group">
       <div class="card border-top-orange border-0 shadow-sm rounded">
-        <div class="card-body">
-          <h1>Login</h1>
-          <p class="text-muted">Sign In to your account</p>
+        <div class="card-body p-4">
+          <div class="text-center mb-4">
+            <h1 class="font-weight-bold">Login Admin</h1>
+            <p class="text-muted">Masuk ke panel administrator</p>
+          </div>
           <div v-if="validation.message" class="mt-2">
-            <b-alert show variant="danger">{{ validation.message }}</b-alert>
+            <b-alert show variant="danger" class="rounded-pill px-3 py-2 mb-3">{{ validation.message }}</b-alert>
           </div>
           <form @submit.prevent="login">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="fa fa-envelope"></i>
-                </span>
+            <div class="form-group mb-3">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text rounded-left bg-light border-0">
+                    <i class="fa fa-envelope text-muted"></i>
+                  </span>
+                </div>
+                <input class="form-control rounded-right border-left-0" v-model="user.email" :class="{ 'is-invalid': validation.email }" type="email" placeholder="Alamat Email Admin">
               </div>
-              <input class="form-control" v-model="user.email" :class="{ 'is-invalid': validation.email }" type="email" placeholder="Email Address">
-            </div>
-            <div v-if="validation.email" class="mt-2">
-              <b-alert show variant="danger">{{ validation.email[0] }}</b-alert>
-            </div>
-            <div class="input-group mb-4">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="fa fa-lock"></i>
-                </span>
+              <div v-if="validation.email" class="mt-2">
+                <b-alert show variant="danger" class="rounded-pill px-3 py-2 mb-0">{{ validation.email[0] }}</b-alert>
               </div>
-              <input class="form-control" v-model="user.password" :class="{ 'is-invalid': validation.password }" type="password" placeholder="Password">
             </div>
-            <div v-if="validation.password" class="mt-2">
-              <b-alert show variant="danger">{{ validation.password[0] }}</b-alert>
+            <div class="form-group mb-4">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text rounded-left bg-light border-0">
+                    <i class="fa fa-lock text-muted"></i>
+                  </span>
+                </div>
+                <input class="form-control rounded-right border-left-0" v-model="user.password" :class="{ 'is-invalid': validation.password }" type="password" placeholder="Kata Sandi Admin">
+              </div>
+              <div v-if="validation.password" class="mt-2">
+                <b-alert show variant="danger" class="rounded-pill px-3 py-2 mb-0">{{ validation.password[0] }}</b-alert>
+              </div>
             </div>
             <div class="row">
               <div class="col-12">
-                <button class="btn btn-warning shadow-sm rounded-sm px-4 w-100" type="submit">LOGIN</button>
+                <button class="btn btn-warning btn-lg w-100 rounded-pill py-2 transition-medium" type="submit">
+                  <i class="fa fa-sign-in-alt mr-2"></i>LOGIN ADMIN
+                </button>
               </div>
             </div>
           </form>
