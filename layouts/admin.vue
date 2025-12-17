@@ -18,7 +18,7 @@
         <Nuxt />
         <!-- end content -->
         <footer class="c-footer">
-          <div><strong>MI STORE</strong> &copy; 2021 - Yanafriyoko.com.</div>
+          <div><strong>MI STORE</strong> &copy; 2021 - pramadha.com.</div>
           <div class="ml-auto">Template by&nbsp;<a href="https://coreui.io/">CoreUI</a></div>
         </footer>
       </div>
