@@ -4,38 +4,41 @@
 
       <div class="row">
           <div class="col-md-12">
-              <h3>PENCARIAN DENGAN KATA KUNCI : <strong>{{ $route.query.q }}</strong></h3>
+              <h3 class="font-weight-bold mb-4">PENCARIAN DENGAN KATA KUNCI : <strong>{{ $route.query.q }}</strong></h3>
               <!-- Solid divider -->
               <hr class="solid">
           </div>
       </div>  
 
       <div class="row" v-if="products.data.length > 0">
-        <div class="col-md-3 mt-1 mb-4" v-for="product in products.data" :key="product.id">
-          <div class="card h-100 border-0 rounded shadow-sm">
-            <div class="card-body">
-              <div class="card-img-actions">
-                <img :src="product.image" class="card-img img-fluid">
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4" v-for="product in products.data" :key="product.id">
+          <div class="card h-100 border-0 rounded shadow-sm hover-card">
+            <div class="card-body p-0 position-relative">
+              <div class="card-img-actions overflow-hidden rounded-top">
+                <img :src="product.image" class="card-img img-fluid w-100" :alt="product.title" style="height: 200px; object-fit: cover;">
               </div>
             </div>
-            <div class="card-body bg-light-custom text-center rounded-bottom">
+            <div class="card-body bg-white text-center rounded-bottom">
               <div class="mb-2">
-                <h6 class="font-weight-semibold mb-2">
-                  <nuxt-link :to="{name: 'products-slug', params: {slug: product.slug}}" class="text-default mb-2"
+                <h6 class="font-weight-semibold mb-1">
+                  <nuxt-link :to="{name: 'products-slug', params: {slug: product.slug}}" class="text-dark mb-1 text-decoration-none"
                     data-abc="true">{{ product.title }}</nuxt-link>
                 </h6>
-                <nuxt-link :to="{name: 'categories-slug', params: {slug: product.category.slug}}" class="text-muted"
+                <nuxt-link :to="{name: 'categories-slug', params: {slug: product.category.slug}}" class="text-muted small text-decoration-none"
                   data-abc="true">{{ product.category.name }}</nuxt-link>
               </div>
-              <h6 class="mb-0 font-weight-semibold"><s class="text-red">Rp. {{ formatPrice(product.price) }}</s> /
-                <strong>{{ product.discount }} %</strong></h6>
-              <h5 class="mb-0 font-weight-semibold mt-3 text-success">Rp. {{ formatPrice(calculateDiscount(product)) }}
+              <div class="d-flex justify-content-center align-items-center mb-2">
+                <span class="text-muted small mr-2"><s>Rp. {{ formatPrice(product.price) }}</s></span>
+                <span class="badge badge-danger">{{ product.discount }}%</span>
+              </div>
+              <h5 class="mb-2 font-weight-bold text-success">Rp. {{ formatPrice(calculateDiscount(product)) }}
               </h5>
-              <hr>
-                <client-only>
-                  <vue-star-rating :rating="parseFloat(product.reviews_avg_rating)" :increment="0.5" :star-size="20" :read-only="true" :show-rating="false" :inline="true"></vue-star-rating> 
-                  (<strong>{{ product.reviews_count }}</strong> ulasan)
-                </client-only>
+              <client-only>
+                <div class="d-flex justify-content-center align-items-center mb-2">
+                  <vue-star-rating :rating="parseFloat(product.reviews_avg_rating)" :increment="0.5" :star-size="16" :read-only="true" :show-rating="false" :inline="true"></vue-star-rating> 
+                  <span class="small text-muted ml-1">({{ product.reviews_count }})</span>
+                </div>
+              </client-only>
             </div>
           </div>
         </div>
@@ -43,7 +46,7 @@
 
       <div class="row justify-content-center" v-else>
         <div class="col-md-12">
-          <b-alert show variant="danger">DATA PRODUK TIDAK DITEMUKAN!</b-alert>
+          <b-alert show variant="danger" class="rounded-pill px-4 py-3">DATA PRODUK TIDAK DITEMUKAN!</b-alert>
         </div>
       </div>
 
@@ -51,7 +54,7 @@
       <div class="row justify-content-center mt-4 mb-4">
         <div class="text-center">
           <b-pagination align="center" :value="products.current_page" :total-rows="products.total"
-            :per-page="products.per_page" @change="changePage" aria-controls="my-table"></b-pagination>
+            :per-page="products.per_page" @change="changePage" aria-controls="my-table" class="mt-4"></b-pagination>
         </div>
       </div>
 
