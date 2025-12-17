@@ -10,40 +10,47 @@
       <div class="col-md-9">
         <div class="card border-0 rounded shadow-sm border-top-orange">
           <div class="card-body">
-            <h5><i class="fa fa-shopping-cart"></i> MY ORDERS</h5>
-            <hr>
+            <h5 class="font-weight-bold mb-4"><i class="fa fa-shopping-cart mr-2"></i>MY ORDERS</h5>
 
-            <div class="form-group">
-              <div class="input-group mb-3">
-                <input type="text" class="form-control" v-model="search" @keypress.enter="searchData" placeholder="cari berdasarkan no. invoice">
+            <div class="form-group mb-4">
+              <div class="input-group rounded-pill overflow-hidden">
+                <input type="text" class="form-control border-0" v-model="search" @keypress.enter="searchData" placeholder="Cari berdasarkan no. invoice">
                 <div class="input-group-append">
-                  <button @click="searchData" class="btn btn-warning"><i class="fa fa-search"></i>
-                    SEARCH
+                  <button @click="searchData" class="btn btn-warning rounded-pill px-4">
+                    <i class="fa fa-search mr-2"></i>SEARCH
                   </button>
                 </div>
               </div>
             </div>
 
-            <b-table striped bordered hover :items="invoices.data" :fields="fields" show-empty>
+            <b-table striped bordered hover :items="invoices.data" :fields="fields" show-empty class="rounded shadow-sm">
               <template v-slot:cell(grand_total)="row">
-                Rp. {{ formatPrice(row.item.grand_total) }}
+                <span class="font-weight-bold">Rp. {{ formatPrice(row.item.grand_total) }}</span>
               </template>
               <template v-slot:cell(status)="row">
-                <button v-if="row.item.status == 'pending'" class="btn btn-sm btn-primary"><i class="fa fa-circle-notch fa-spin"></i> {{ row.item.status }}</button>
-                <button v-if="row.item.status == 'success'" class="btn btn-sm btn-success"><i class="fa fa-check-circle"></i> {{ row.item.status }}</button>
-                <button v-if="row.item.status == 'expired'" class="btn btn-sm btn-warning-2"><i class="fa fa-exclamation-triangle"></i> {{ row.item.status }}</button>
-                <button v-if="row.item.status == 'failed'" class="btn btn-sm btn-danger"><i class="fa fa-times-circle"></i> {{ row.item.status }}</button>
+                <span v-if="row.item.status == 'pending'" class="badge badge-primary px-3 py-2">
+                  <i class="fa fa-circle-notch fa-spin mr-1"></i> {{ row.item.status }}
+                </span>
+                <span v-if="row.item.status == 'success'" class="badge badge-success px-3 py-2">
+                  <i class="fa fa-check-circle mr-1"></i> {{ row.item.status }}
+                </span>
+                <span v-if="row.item.status == 'expired'" class="badge badge-warning px-3 py-2">
+                  <i class="fa fa-exclamation-triangle mr-1"></i> {{ row.item.status }}
+                </span>
+                <span v-if="row.item.status == 'failed'" class="badge badge-danger px-3 py-2">
+                  <i class="fa fa-times-circle mr-1"></i> {{ row.item.status }}
+                </span>
               </template>
               <template v-slot:cell(actions)="row">
-                <b-button :to="{name: 'customer-invoices-show-snap_token', params: {snap_token: row.item.snap_token}}" variant="info" size="sm">
-                  DETAIL
+                <b-button :to="{name: 'customer-invoices-show-snap_token', params: {snap_token: row.item.snap_token}}" variant="outline-primary" size="sm" class="rounded-pill">
+                  <i class="fa fa-eye mr-1"></i>DETAIL
                 </b-button>
               </template>
             </b-table>
 
             <!-- pagination -->
             <b-pagination align="right" :value="invoices.current_page" :total-rows="invoices.total"
-              :per-page="invoices.per_page" @change="changePage" aria-controls="my-table"></b-pagination>
+              :per-page="invoices.per_page" @change="changePage" aria-controls="my-table" class="mt-4"></b-pagination>
 
           </div>
         </div>
