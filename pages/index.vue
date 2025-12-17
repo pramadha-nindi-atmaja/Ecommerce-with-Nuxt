@@ -15,26 +15,35 @@
       </div>
       <div class="row">
 
-        <div class="col-md-3 mt-1 mb-4" v-for="product in products.data" :key="product.id">
-          <div class="card h-100 border-0 rounded shadow-sm">
-            <div class="card-body">
-              <div class="card-img-actions"> 
-                <img :src="product.image" class="card-img img-fluid"> 
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4" v-for="product in products.data" :key="product.id">
+          <div class="card h-100 border-0 rounded shadow-sm transition-medium hover-card">
+            <div class="card-body p-0 position-relative">
+              <div class="card-img-actions overflow-hidden rounded-top"> 
+                <img :src="product.image" class="card-img img-fluid w-100" :alt="product.title" style="height: 200px; object-fit: cover;">
+              </div>
+              <div class="position-absolute top-0 right-0 m-2">
+                <button @click="toggleWishlist(product)" class="btn btn-wishlist rounded-circle p-2" :class="isInWishlist(product.id) ? 'active' : ''">
+                  <i class="fa" :class="isInWishlist(product.id) ? 'fa-heart text-white' : 'fa-heart-o text-danger'"></i>
+                </button>
               </div>
             </div>
-            <div class="card-body bg-light-custom text-center rounded-bottom">
+            <div class="card-body bg-white text-center rounded-bottom">
               <div class="mb-2">
-                <h6 class="font-weight-semibold mb-2"> 
-                  <nuxt-link :to="{name: 'products-slug', params: {slug: product.slug}}" class="text-default mb-2" data-abc="true">{{ product.title }}</nuxt-link> 
+                <h6 class="font-weight-semibold mb-1"> 
+                  <nuxt-link :to="{name: 'products-slug', params: {slug: product.slug}}" class="text-dark mb-1 text-decoration-none" data-abc="true">{{ product.title }}</nuxt-link> 
                 </h6> 
-                <nuxt-link :to="{name: 'categories-slug', params: {slug: product.category.slug}}" class="text-muted" data-abc="true">{{ product.category.name }}</nuxt-link>
+                <nuxt-link :to="{name: 'categories-slug', params: {slug: product.category.slug}}" class="text-muted small text-decoration-none" data-abc="true">{{ product.category.name }}</nuxt-link>
               </div>
-              <h6 class="mb-0 font-weight-semibold"><s class="text-red">Rp. {{ formatPrice(product.price) }}</s> / <strong>{{ product.discount }} %</strong></h6>
-              <h5 class="mb-0 font-weight-semibold mt-3 text-success">Rp. {{ formatPrice(calculateDiscount(product)) }}</h5>
-              <hr>
+              <div class="d-flex justify-content-center align-items-center mb-2">
+                <span class="text-muted small mr-2"><s>Rp. {{ formatPrice(product.price) }}</s></span>
+                <span class="badge badge-danger">{{ product.discount }}%</span>
+              </div>
+              <h5 class="mb-2 font-weight-bold text-success">Rp. {{ formatPrice(calculateDiscount(product)) }}</h5>
                 <client-only>
-                  <vue-star-rating :rating="parseFloat(product.reviews_avg_rating)" :increment="0.5" :star-size="20" :read-only="true" :show-rating="false" :inline="true"></vue-star-rating> 
-                  (<strong>{{ product.reviews_count }}</strong> ulasan)
+                  <div class="d-flex justify-content-center align-items-center mb-2">
+                    <vue-star-rating :rating="parseFloat(product.reviews_avg_rating)" :increment="0.5" :star-size="16" :read-only="true" :show-rating="false" :inline="true"></vue-star-rating> 
+                    <span class="small text-muted ml-1">({{ product.reviews_count }})</span>
+                  </div>
                 </client-only>
             </div>
           </div>
@@ -44,7 +53,9 @@
 
       <div class="row justify-content-center mt-4">
           <div class="text-center">
-            <nuxt-link :to="{name: 'products'}" class="btn btn-lg btn-warning border-0 rounded shadow-sm">LIHAT LEBIH BANYAK</nuxt-link>
+            <nuxt-link :to="{name: 'products'}" class="btn btn-lg btn-warning rounded-pill px-4 py-2 shadow transition-medium">
+              <i class="fa fa-arrow-down mr-2"></i>LIHAT LEBIH BANYAK
+            </nuxt-link>
           </div>
         </div>
 
@@ -97,6 +108,8 @@
     //hook "asyncData"
     async asyncData({ store }) {
       await store.dispatch('web/product/getProductsData')
+      // initialize wishlist
+      await store.dispatch('web/wishlist/getWishlistData')
     },
 
     //computed
@@ -106,7 +119,49 @@
       products() {
         return this.$store.state.web.product.products
       },
+      
+      //wishlist
+      wishlist() {
+        return this.$store.state.web.wishlist.wishlist
+      }
     },
+    
+    //methods
+    methods: {
+      
+      // toggle wishlist
+      async toggleWishlist(product) {
+        // check if product is already in wishlist
+        const exists = this.wishlist.find(item => item.id === product.id)
+        
+        if (exists) {
+          // remove from wishlist
+          await this.$store.dispatch('web/wishlist/removeFromWishlist', product.id)
+          this.$swal.fire({
+            title: 'Removed!',
+            text: 'Product removed from wishlist',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        } else {
+          // add to wishlist
+          await this.$store.dispatch('web/wishlist/addToWishlist', product)
+          this.$swal.fire({
+            title: 'Added!',
+            text: 'Product added to wishlist',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }
+      },
+      
+      // check if product is in wishlist
+      isInWishlist(productId) {
+        return this.wishlist.some(item => item.id === productId)
+      }
+    }
 
   }
 </script>
