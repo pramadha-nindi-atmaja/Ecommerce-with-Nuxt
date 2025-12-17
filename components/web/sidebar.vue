@@ -1,34 +1,35 @@
 <template>
   <div class="card border-0 rounded shadow-sm border-top-orange">
-    <div class="card-body">
-      <h5><i class="fa fa-user-circle"></i> ACCOUNT MENU</h5>
-      <hr>
-      <ul class="list-group">
+    <div class="card-body p-0">
+      <div class="p-4 border-bottom">
+        <h5 class="font-weight-bold mb-0"><i class="fa fa-user-circle mr-2"></i>ACCOUNT MENU</h5>
+      </div>
+      <ul class="list-group list-group-flush">
         <nuxt-link :to="{name: 'customer-dashboard'}"
-          class="list-group-item text-decoration-none text-dark">
-          <i class="fa fa-tachometer-alt"></i> Dashboard
+          class="list-group-item text-decoration-none text-dark d-flex align-items-center px-4 py-3">
+          <i class="fa fa-tachometer-alt mr-3"></i> Dashboard
         </nuxt-link>
 
-        <nuxt-link :to="{name: 'customer-invoices'}" class="list-group-item text-decoration-none text-dark">
-          <i class="fa fa-shopping-cart"></i> My Orders
+        <nuxt-link :to="{name: 'customer-invoices'}" class="list-group-item text-decoration-none text-dark d-flex align-items-center px-4 py-3">
+          <i class="fa fa-shopping-cart mr-3"></i> My Orders
         </nuxt-link>
 
-        <nuxt-link to="/customer/profile" class="list-group-item text-decoration-none text-dark" v-if="false">
-          <i class="fa fa-user"></i> Profile
+        <nuxt-link to="/customer/profile" class="list-group-item text-decoration-none text-dark d-flex align-items-center px-4 py-3" v-if="false">
+          <i class="fa fa-user mr-3"></i> Profile
         </nuxt-link>
 
-        <nuxt-link to="/customer/wishlist" class="list-group-item text-decoration-none text-dark" v-if="false">
-          <i class="fa fa-heart"></i> Wishlist
-          <span class="badge badge-danger float-right" v-if="wishlistCount > 0">{{ wishlistCount }}</span>
+        <nuxt-link :to="{name: 'customer-wishlist'}" class="list-group-item text-decoration-none text-dark d-flex align-items-center px-4 py-3">
+          <i class="fa fa-heart mr-3"></i> Wishlist
+          <span class="badge badge-danger ml-auto" v-if="wishlistCount > 0">{{ wishlistCount }}</span>
         </nuxt-link>
 
-        <nuxt-link to="/customer/reviews" class="list-group-item text-decoration-none text-dark" v-if="false">
-          <i class="fa fa-star"></i> My Reviews
+        <nuxt-link to="/customer/reviews" class="list-group-item text-decoration-none text-dark d-flex align-items-center px-4 py-3" v-if="false">
+          <i class="fa fa-star mr-3"></i> My Reviews
         </nuxt-link>
 
-        <a @click="logout" class="list-group-item text-decoration-none text-dark"
+        <a @click="logout" class="list-group-item text-decoration-none text-dark d-flex align-items-center px-4 py-3"
           style="cursor: pointer;">
-          <i class="fa fa-sign-out-alt"></i> Logout
+          <i class="fa fa-sign-out-alt mr-3"></i> Logout
         </a>
       </ul>
     </div>
@@ -37,11 +38,17 @@
 
 <script>
   export default {
+    //hook "fetch"
+    async fetch() {
+      // initialize wishlist
+      await this.$store.dispatch('web/wishlist/getWishlistData')
+    },
+    
     //computed
     computed: {
-      //wishlist count (placeholder)
+      //wishlist count
       wishlistCount() {
-        return 0; // This would be connected to a wishlist store if implemented
+        return this.$store.state.web.wishlist.wishlistCount;
       }
     },
 
@@ -96,17 +103,22 @@
   
   .list-group-item {
     border: none;
-    padding: 12px 15px;
     transition: all 0.3s ease;
+    position: relative;
   }
   
   .list-group-item:hover {
     background: rgba(0, 0, 0, 0.05);
   }
   
-  .list-group-item i {
-    width: 20px;
-    margin-right: 10px;
+  .list-group-item:hover:not(.nuxt-link-active)::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: rgba(230, 74, 25, 0.3);
   }
   
   .badge {
@@ -116,5 +128,9 @@
   h5 {
     font-weight: 600;
     color: #333;
+  }
+  
+  .border-bottom {
+    border-bottom: 1px solid rgba(0,0,0,0.1) !important;
   }
 </style>
