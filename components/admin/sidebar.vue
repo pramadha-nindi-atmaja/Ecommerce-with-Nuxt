@@ -30,11 +30,11 @@
 
     <!-- Logout -->
     <li class="c-sidebar-nav-item">
-      <a @click.prevent="logout" class="c-sidebar-nav-link">
+      <a @click.prevent="logout" class="c-sidebar-nav-link text-danger">
         <svg class="c-sidebar-nav-icon">
           <use xlink:href="@/node_modules/@coreui/icons/sprites/free.svg#cil-account-logout"></use>
         </svg>
-        Logout
+        <strong>Logout</strong>
       </a>
     </li>
   </ul>
