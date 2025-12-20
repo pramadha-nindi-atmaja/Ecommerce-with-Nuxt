@@ -143,7 +143,7 @@ export default {
     };
   },
   methods: {
-    subscribeNewsletter() {
+    async subscribeNewsletter() {
       if (!this.email) {
         this.$swal.fire({
           icon: 'warning',
@@ -164,17 +164,38 @@ export default {
         return;
       }
 
-      // Simulate API call
-      console.log("Email berlangganan:", this.email);
-      
-      this.$swal.fire({
-        icon: 'success',
-        title: 'Berhasil!',
-        text: 'Terima kasih telah berlangganan newsletter kami!',
-        confirmButtonColor: '#e64a19'
-      });
-      
-      this.email = "";
+      try {
+        // Add subscriber to store
+        const result = await this.$store.dispatch('web/newsletter/addSubscriber', { email: this.email });
+        
+        if (result.success) {
+          this.$swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            html: `Terima kasih telah berlangganan newsletter kami!<br><br>` +
+                  `<strong>Kode Diskon Anda: ${result.discountCode}</strong><br>` +
+                  `Diskon: ${result.discount}%<br>` +
+                  `Berlaku selama 30 hari`,
+            confirmButtonColor: '#e64a19'
+          });
+          
+          this.email = "";
+        } else {
+          this.$swal.fire({
+            icon: 'warning',
+            title: 'Peringatan',
+            text: result.message,
+            confirmButtonColor: '#e64a19'
+          });
+        }
+      } catch (error) {
+        this.$swal.fire({
+          icon: 'error',
+          title: 'Gagal!',
+          text: 'Terjadi kesalahan saat berlangganan newsletter',
+          confirmButtonColor: '#e64a19'
+        });
+      }
     },
     validateEmail(email) {
       const re =

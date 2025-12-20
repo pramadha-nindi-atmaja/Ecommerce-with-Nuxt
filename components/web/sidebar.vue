@@ -13,6 +13,10 @@
         <nuxt-link :to="{name: 'customer-invoices'}" class="list-group-item text-decoration-none text-dark d-flex align-items-center px-4 py-3">
           <i class="fa fa-shopping-cart mr-3"></i> My Orders
         </nuxt-link>
+        
+        <nuxt-link :to="{name: 'customer-tracking'}" class="list-group-item text-decoration-none text-dark d-flex align-items-center px-4 py-3">
+          <i class="fa fa-truck mr-3"></i> Lacak Pesanan
+        </nuxt-link>
 
         <nuxt-link to="/customer/profile" class="list-group-item text-decoration-none text-dark d-flex align-items-center px-4 py-3" v-if="false">
           <i class="fa fa-user mr-3"></i> Profile
@@ -21,6 +25,10 @@
         <nuxt-link :to="{name: 'customer-wishlist'}" class="list-group-item text-decoration-none text-dark d-flex align-items-center px-4 py-3">
           <i class="fa fa-heart mr-3"></i> Wishlist
           <span class="badge badge-danger ml-auto" v-if="wishlistCount > 0">{{ wishlistCount }}</span>
+        </nuxt-link>
+        
+        <nuxt-link :to="{name: 'customer-discounts'}" class="list-group-item text-decoration-none text-dark d-flex align-items-center px-4 py-3">
+          <i class="fa fa-ticket-alt mr-3"></i> Kode Diskon
         </nuxt-link>
 
         <nuxt-link to="/customer/reviews" class="list-group-item text-decoration-none text-dark d-flex align-items-center px-4 py-3" v-if="false">

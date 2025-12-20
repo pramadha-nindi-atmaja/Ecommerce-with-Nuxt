@@ -36,6 +36,12 @@
                 </div>
               </div>
               
+              <!-- Compare -->
+              <nuxt-link :to="{name: 'compare'}" class="btn btn-info btn-md d-md-block mr-2 rounded-pill px-3" v-if="$auth.loggedIn && $auth.strategy.name == 'customer'">
+                <i class="fa fa-columns"></i> 
+                <span class="ml-1 badge badge-light">{{ compareCount }}</span>
+              </nuxt-link>
+              
               <!-- Wishlist -->
               <nuxt-link :to="{name: 'customer-wishlist'}" class="btn btn-warning btn-md d-md-block mr-2 rounded-pill px-3" v-if="$auth.loggedIn && $auth.strategy.name == 'customer'">
                 <i class="fa fa-heart"></i> 
@@ -46,8 +52,7 @@
               <nuxt-link :to="{name: 'cart'}" class="btn btn-warning btn-md d-md-block rounded-pill px-3">
                 <i class="fa fa-shopping-cart"></i> 
                 <span class="ml-1 badge badge-light">{{ cartTotal }}</span>
-              </nuxt-link>
-            </div>
+              </nuxt-link>            </div>
           </div>
         </div>
       </div>
@@ -120,6 +125,9 @@
                 <nuxt-link :to="{name: 'customer-dashboard'}" class="dropdown-item">
                   <i class="fa fa-user"></i> Profil Saya
                 </nuxt-link>
+                <nuxt-link :to="{name: 'compare'}" class="dropdown-item">
+                  <i class="fa fa-columns"></i> Bandingkan Produk
+                </nuxt-link>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item" @click.prevent="logout">
                   <i class="fa fa-sign-out-alt"></i> Keluar
@@ -147,6 +155,9 @@
         
         // fetching wishlist data
         await this.$store.dispatch('web/wishlist/getWishlistData')
+        
+        // fetching compare data
+        await this.$store.dispatch('web/compare/getComparedProductsData')
       }
     },
 
@@ -170,6 +181,11 @@
       //wishlist count
       wishlistCount() {
         return this.$store.state.web.wishlist.wishlistCount
+      },
+      
+      //compare count
+      compareCount() {
+        return this.$store.state.web.compare.comparedProducts.length
       },
       
       //current language

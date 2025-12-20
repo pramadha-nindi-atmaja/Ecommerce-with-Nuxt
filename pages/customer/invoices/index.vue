@@ -10,7 +10,12 @@
       <div class="col-md-9">
         <div class="card border-0 rounded shadow-sm border-top-orange">
           <div class="card-body">
-            <h5 class="font-weight-bold mb-4"><i class="fa fa-shopping-cart mr-2"></i>MY ORDERS</h5>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h5 class="font-weight-bold"><i class="fa fa-shopping-cart mr-2"></i>MY ORDERS</h5>
+              <nuxt-link :to="{name: 'customer-tracking'}" class="btn btn-outline-warning rounded-pill px-3 py-2">
+                <i class="fa fa-truck mr-2"></i>Lacak Pesanan
+              </nuxt-link>
+            </div>
 
             <div class="form-group mb-4">
               <div class="input-group rounded-pill overflow-hidden">
