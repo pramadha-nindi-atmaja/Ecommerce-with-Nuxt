@@ -8,7 +8,17 @@ export const state = () => ({
     page: 1,
 
     //product
-    product: {}
+    product: {},
+    
+    //related products
+    relatedProducts: [],
+    
+    //filters
+    filters: {
+        category: '',
+        maxPrice: '',
+        sortBy: ''
+    }
 
 })
 
@@ -35,6 +45,20 @@ export const mutations = {
         //set value state "product"
         state.product = payload
     },
+    
+    //mutation "SET_RELATED_PRODUCTS"
+    SET_RELATED_PRODUCTS(state, payload) {
+
+        //set value state "relatedProducts"
+        state.relatedProducts = payload
+    },
+    
+    //mutation "SET_FILTERS"
+    SET_FILTERS(state, payload) {
+
+        //set value state "filters"
+        state.filters = payload
+    }
 
 }
 
@@ -50,8 +74,24 @@ export const actions = {
         //set promise
         return new Promise((resolve, reject) => {
 
+            //build query parameters
+            let queryParams = `q=${search}&page=${state.page}`
+            
+            //add filters if they exist
+            if (state.filters.category) {
+                queryParams += `&category=${state.filters.category}`
+            }
+            
+            if (state.filters.maxPrice) {
+                queryParams += `&max_price=${state.filters.maxPrice}`
+            }
+            
+            if (state.filters.sortBy) {
+                queryParams += `&sort_by=${state.filters.sortBy}`
+            }
+
             //fetching Rest API "/api/web/products" with method "GET"
-            this.$axios.get(`/api/web/products?q=${search}&page=${state.page}`)
+            this.$axios.get(`/api/web/products?${queryParams}`)
             
             //success
             .then((response) => {
@@ -90,5 +130,38 @@ export const actions = {
         })
 
     },
+    
+    //get related products
+    getRelatedProducts({ commit }, payload) {
+
+        //set promise
+        return new Promise((resolve, reject) => {
+
+            //fetching Rest API "/api/web/products/:id/related" with method "GET"
+            this.$axios.get(`/api/web/products/${payload}/related`)
+
+            //success
+            .then((response) => {
+
+                //commit to mutation "SET_RELATED_PRODUCTS"
+                commit('SET_RELATED_PRODUCTS', response.data.data)
+
+                //resolve promise
+                resolve()
+            })
+
+        })
+
+    },
+    
+    //set filters
+    setFilters({ commit, state }, payload) {
+
+        //commit to mutation "SET_FILTERS"
+        commit('SET_FILTERS', payload)
+        
+        //refresh products with new filters
+        return state.products
+    }
 
 }
